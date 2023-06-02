@@ -1,0 +1,2596 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1671\cocoasubrtf600
+{\fonttbl\f0\fmodern\fcharset0 CourierNewPS-BoldMT;\f1\fmodern\fcharset0 CourierNewPSMT;\f2\froman\fcharset0 TimesNewRomanPSMT;
+\f3\froman\fcharset0 TimesNewRomanPS-BoldMT;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue255;\red0\green128\blue0;\red0\green0\blue128;
+\red128\green128\blue128;\red255\green0\blue0;\red136\green0\blue136;\red255\green0\blue255;}
+{\*\expandedcolortbl;;\csgenericrgb\c0\c0\c100000;\csgenericrgb\c0\c50196\c0;\csgenericrgb\c0\c0\c50196;
+\csgenericrgb\c50196\c50196\c50196;\csgenericrgb\c100000\c0\c0;\csgenericrgb\c53333\c0\c53333;\csgenericrgb\c100000\c0\c100000;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\deftab708
+\pard\pardeftab708\ri-1184\partightenfactor0
+
+\f0\b\fs20 \cf2 import
+\f1\b0 \cf0  random\
+\
+\pard\pardeftab708\ri-1184\partightenfactor0
+\cf3 # Define the attributes for the player and monsters\cf0 \
+player_attributes 
+\f0\b \cf4 =
+\f1\b0 \cf0  
+\f0\b \cf4 \{
+\f1\b0 \cf0 \
+    \cf5 "life_points"
+\f0\b \cf4 :
+\f1\b0 \cf0  \cf6 100
+\f0\b \cf4 ,
+\f1\b0 \cf0 \
+    \cf5 "strength"
+\f0\b \cf4 :
+\f1\b0 \cf0  \cf6 10
+\f0\b \cf4 ,
+\f1\b0 \cf0 \
+    \cf5 "experience_points"
+\f0\b \cf4 :
+\f1\b0 \cf0  \cf6 0
+\f0\b \cf4 ,
+\f1\b0 \cf0 \
+    \cf5 "x"
+\f0\b \cf4 :
+\f1\b0 \cf0  
+\f0\b \cf7 None\cf4 ,
+\f1\b0 \cf0 \
+    \cf5 "y"
+\f0\b \cf4 :
+\f1\b0 \cf0  
+\f0\b \cf7 None
+\f1\b0 \cf0 \
+\pard\pardeftab708\ri-1184\partightenfactor0
+
+\f0\b \cf4 \}
+\f1\b0 \cf0 \
+\
+monster_attributes 
+\f0\b \cf4 =
+\f1\b0 \cf0  
+\f0\b \cf4 \{
+\f1\b0 \cf0 \
+    \cf5 "life_points"
+\f0\b \cf4 :
+\f1\b0 \cf0  \cf6 50
+\f0\b \cf4 ,
+\f1\b0 \cf0 \
+    \cf5 "strength"
+\f0\b \cf4 :
+\f1\b0 \cf0  \cf6 5\cf0 \
+
+\f0\b \cf4 \}
+\f1\b0 \cf0 \
+\
+\pard\pardeftab708\ri-1184\partightenfactor0
+\cf3 # Define the size of the world\cf0 \
+world_size 
+\f0\b \cf4 =
+\f1\b0 \cf0  \cf6 200\cf0 \
+\
+\cf3 # Define the number of monsters\cf0 \
+min_monsters 
+\f0\b \cf4 =
+\f1\b0 \cf0  \cf6 50\cf0 \
+max_monsters 
+\f0\b \cf4 =
+\f1\b0 \cf0  \cf6 100\cf0 \
+\
+\cf3 # Define the functions for moving the player and checking for collisions\cf0 \
+\pard\pardeftab708\ri-1184\partightenfactor0
+
+\f0\b \cf2 def
+\f1\b0 \cf0  \cf8 move_player
+\f0\b \cf4 (
+\f1\b0 \cf0 direction
+\f0\b \cf4 ):
+\f1\b0 \cf0 \
+    
+\f0\b \cf2 if
+\f1\b0 \cf0  direction 
+\f0\b \cf4 ==
+\f1\b0 \cf0  \cf5 "north"
+\f0\b \cf4 :
+\f1\b0 \cf0 \
+        player_attributes
+\f0\b \cf4 [
+\f1\b0 \cf5 "y"
+\f0\b \cf4 ]
+\f1\b0 \cf0  
+\f0\b \cf4 -=
+\f1\b0 \cf0  \cf6 1\cf0 \
+    
+\f0\b \cf2 elif
+\f1\b0 \cf0  direction 
+\f0\b \cf4 ==
+\f1\b0 \cf0  \cf5 "south"
+\f0\b \cf4 :
+\f1\b0 \cf0 \
+        player_attributes
+\f0\b \cf4 [
+\f1\b0 \cf5 "y"
+\f0\b \cf4 ]
+\f1\b0 \cf0  
+\f0\b \cf4 +=
+\f1\b0 \cf0  \cf6 1\cf0 \
+    
+\f0\b \cf2 elif
+\f1\b0 \cf0  direction 
+\f0\b \cf4 ==
+\f1\b0 \cf0  \cf5 "east"
+\f0\b \cf4 :
+\f1\b0 \cf0 \
+        player_attributes
+\f0\b \cf4 [
+\f1\b0 \cf5 "x"
+\f0\b \cf4 ]
+\f1\b0 \cf0  
+\f0\b \cf4 +=
+\f1\b0 \cf0  \cf6 1\cf0 \
+    
+\f0\b \cf2 elif
+\f1\b0 \cf0  direction 
+\f0\b \cf4 ==
+\f1\b0 \cf0  \cf5 "west"
+\f0\b \cf4 :
+\f1\b0 \cf0 \
+        player_attributes
+\f0\b \cf4 [
+\f1\b0 \cf5 "x"
+\f0\b \cf4 ]
+\f1\b0 \cf0  
+\f0\b \cf4 -=
+\f1\b0 \cf0  \cf6 1\cf0 \
+\
+
+\f0\b \cf2 def
+\f1\b0 \cf0  \cf8 check_collision
+\f0\b \cf4 ():
+\f1\b0 \cf0 \
+    
+\f0\b \cf2 for
+\f1\b0 \cf0  monster 
+\f0\b \cf2 in
+\f1\b0 \cf0  monsters
+\f0\b \cf4 :
+\f1\b0 \cf0 \
+        
+\f0\b \cf2 if
+\f1\b0 \cf0  monster
+\f0\b \cf4 [
+\f1\b0 \cf5 "x"
+\f0\b \cf4 ]
+\f1\b0 \cf0  
+\f0\b \cf4 ==
+\f1\b0 \cf0  player_attributes
+\f0\b \cf4 [
+\f1\b0 \cf5 "x"
+\f0\b \cf4 ]
+\f1\b0 \cf0  
+\f0\b \cf2 and
+\f1\b0 \cf0  monster
+\f0\b \cf4 [
+\f1\b0 \cf5 "y"
+\f0\b \cf4 ]
+\f1\b0 \cf0  
+\f0\b \cf4 ==
+\f1\b0 \cf0  player_attributes
+\f0\b \cf4 [
+\f1\b0 \cf5 "y"
+\f0\b \cf4 ]:
+\f1\b0 \cf0 \
+            
+\f0\b \cf2 return
+\f1\b0 \cf0  monster\
+    
+\f0\b \cf2 if
+\f1\b0 \cf0  treasure
+\f0\b \cf4 [
+\f1\b0 \cf5 "x"
+\f0\b \cf4 ]
+\f1\b0 \cf0  
+\f0\b \cf4 ==
+\f1\b0 \cf0  player_attributes
+\f0\b \cf4 [
+\f1\b0 \cf5 "x"
+\f0\b \cf4 ]
+\f1\b0 \cf0  
+\f0\b \cf2 and
+\f1\b0 \cf0  treasure
+\f0\b \cf4 [
+\f1\b0 \cf5 "y"
+\f0\b \cf4 ]
+\f1\b0 \cf0  
+\f0\b \cf4 ==
+\f1\b0 \cf0  player_attributes
+\f0\b \cf4 [
+\f1\b0 \cf5 "y"
+\f0\b \cf4 ]:
+\f1\b0 \cf0 \
+        
+\f0\b \cf2 return
+\f1\b0 \cf0  \cf5 "treasure"\cf0 \
+    
+\f0\b \cf2 return
+\f1\b0 \cf0  
+\f0\b \cf7 None
+\f1\b0 \cf0 \
+\
+\pard\pardeftab708\ri-1184\partightenfactor0
+\cf3 # Generate the world\cf0 \
+monsters 
+\f0\b \cf4 =
+\f1\b0 \cf0  
+\f0\b \cf4 []
+\f1\b0 \cf0 \
+\pard\pardeftab708\ri-1184\partightenfactor0
+
+\f0\b \cf2 while
+\f1\b0 \cf0  
+\f0\b \cf7 len\cf4 (
+\f1\b0 \cf0 monsters
+\f0\b \cf4 )
+\f1\b0 \cf0  
+\f0\b \cf4 <
+\f1\b0 \cf0  random
+\f0\b \cf4 .
+\f1\b0 \cf0 randint
+\f0\b \cf4 (
+\f1\b0 \cf0 min_monsters
+\f0\b \cf4 ,
+\f1\b0 \cf0  max_monsters
+\f0\b \cf4 ):
+\f1\b0 \cf0 \
+    monster_x 
+\f0\b \cf4 =
+\f1\b0 \cf0  random
+\f0\b \cf4 .
+\f1\b0 \cf0 randint
+\f0\b \cf4 (
+\f1\b0 \cf6 0
+\f0\b \cf4 ,
+\f1\b0 \cf0  world_size
+\f0\b \cf4 -
+\f1\b0 \cf6 1
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+    monster_y 
+\f0\b \cf4 =
+\f1\b0 \cf0  random
+\f0\b \cf4 .
+\f1\b0 \cf0 randint
+\f0\b \cf4 (
+\f1\b0 \cf6 0
+\f0\b \cf4 ,
+\f1\b0 \cf0  world_size
+\f0\b \cf4 -
+\f1\b0 \cf6 1
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+    
+\f0\b \cf2 if
+\f1\b0 \cf0  monster_x 
+\f0\b \cf4 !=
+\f1\b0 \cf0  player_attributes
+\f0\b \cf4 [
+\f1\b0 \cf5 "x"
+\f0\b \cf4 ]
+\f1\b0 \cf0  
+\f0\b \cf2 and
+\f1\b0 \cf0  monster_y 
+\f0\b \cf4 !=
+\f1\b0 \cf0  player_attributes
+\f0\b \cf4 [
+\f1\b0 \cf5 "y"
+\f0\b \cf4 ]:
+\f1\b0 \cf0 \
+        monsters
+\f0\b \cf4 .
+\f1\b0 \cf0 append
+\f0\b \cf4 (\{
+\f1\b0 \cf0 \
+            \cf5 "life_points"
+\f0\b \cf4 :
+\f1\b0 \cf0  monster_attributes
+\f0\b \cf4 [
+\f1\b0 \cf5 "life_points"
+\f0\b \cf4 ],
+\f1\b0 \cf0 \
+            \cf5 "strength"
+\f0\b \cf4 :
+\f1\b0 \cf0  monster_attributes
+\f0\b \cf4 [
+\f1\b0 \cf5 "strength"
+\f0\b \cf4 ],
+\f1\b0 \cf0 \
+            \cf5 "x"
+\f0\b \cf4 :
+\f1\b0 \cf0  monster_x
+\f0\b \cf4 ,
+\f1\b0 \cf0 \
+            \cf5 "y"
+\f0\b \cf4 :
+\f1\b0 \cf0  monster_y\
+        
+\f0\b \cf4 \})
+\f1\b0 \cf0 \
+\
+treasure 
+\f0\b \cf4 =
+\f1\b0 \cf0  
+\f0\b \cf4 \{
+\f1\b0 \cf0 \
+    \cf5 "x"
+\f0\b \cf4 :
+\f1\b0 \cf0  random
+\f0\b \cf4 .
+\f1\b0 \cf0 randint
+\f0\b \cf4 (
+\f1\b0 \cf6 0
+\f0\b \cf4 ,
+\f1\b0 \cf0  world_size
+\f0\b \cf4 -
+\f1\b0 \cf6 1
+\f0\b \cf4 ),
+\f1\b0 \cf0 \
+    \cf5 "y"
+\f0\b \cf4 :
+\f1\b0 \cf0  random
+\f0\b \cf4 .
+\f1\b0 \cf0 randint
+\f0\b \cf4 (
+\f1\b0 \cf6 0
+\f0\b \cf4 ,
+\f1\b0 \cf0  world_size
+\f0\b \cf4 -
+\f1\b0 \cf6 1
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+\pard\pardeftab708\ri-1184\partightenfactor0
+
+\f0\b \cf4 \}
+\f1\b0 \cf0 \
+\pard\pardeftab708\ri-1184\partightenfactor0
+
+\f0\b \cf2 while
+\f1\b0 \cf0  treasure
+\f0\b \cf4 [
+\f1\b0 \cf5 "x"
+\f0\b \cf4 ]
+\f1\b0 \cf0  
+\f0\b \cf4 ==
+\f1\b0 \cf0  player_attributes
+\f0\b \cf4 [
+\f1\b0 \cf5 "x"
+\f0\b \cf4 ]
+\f1\b0 \cf0  
+\f0\b \cf2 and
+\f1\b0 \cf0  treasure
+\f0\b \cf4 [
+\f1\b0 \cf5 "y"
+\f0\b \cf4 ]
+\f1\b0 \cf0  
+\f0\b \cf4 ==
+\f1\b0 \cf0  player_attributes
+\f0\b \cf4 [
+\f1\b0 \cf5 "y"
+\f0\b \cf4 ]:
+\f1\b0 \cf0 \
+    treasure 
+\f0\b \cf4 =
+\f1\b0 \cf0  
+\f0\b \cf4 \{
+\f1\b0 \cf0 \
+        \cf5 "x"
+\f0\b \cf4 :
+\f1\b0 \cf0  random
+\f0\b \cf4 .
+\f1\b0 \cf0 randint
+\f0\b \cf4 (
+\f1\b0 \cf6 0
+\f0\b \cf4 ,
+\f1\b0 \cf0  world_size
+\f0\b \cf4 -
+\f1\b0 \cf6 1
+\f0\b \cf4 ),
+\f1\b0 \cf0 \
+        \cf5 "y"
+\f0\b \cf4 :
+\f1\b0 \cf0  random
+\f0\b \cf4 .
+\f1\b0 \cf0 randint
+\f0\b \cf4 (
+\f1\b0 \cf6 0
+\f0\b \cf4 ,
+\f1\b0 \cf0  world_size
+\f0\b \cf4 -
+\f1\b0 \cf6 1
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+    
+\f0\b \cf4 \}
+\f1\b0 \cf0 \
+\
+\pard\pardeftab708\ri-1184\partightenfactor0
+\cf3 # Place the player in a random location\cf0 \
+player_attributes
+\f0\b \cf4 [
+\f1\b0 \cf5 "x"
+\f0\b \cf4 ]
+\f1\b0 \cf0  
+\f0\b \cf4 =
+\f1\b0 \cf0  random
+\f0\b \cf4 .
+\f1\b0 \cf0 randint
+\f0\b \cf4 (
+\f1\b0 \cf6 0
+\f0\b \cf4 ,
+\f1\b0 \cf0  world_size
+\f0\b \cf4 -
+\f1\b0 \cf6 1
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+player_attributes
+\f0\b \cf4 [
+\f1\b0 \cf5 "y"
+\f0\b \cf4 ]
+\f1\b0 \cf0  
+\f0\b \cf4 =
+\f1\b0 \cf0  random
+\f0\b \cf4 .
+\f1\b0 \cf0 randint
+\f0\b \cf4 (
+\f1\b0 \cf6 0
+\f0\b \cf4 ,
+\f1\b0 \cf0  world_size
+\f0\b \cf4 -
+\f1\b0 \cf6 1
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+\pard\pardeftab708\ri-1184\partightenfactor0
+
+\f0\b \cf2 while
+\f1\b0 \cf0  check_collision
+\f0\b \cf4 ()
+\f1\b0 \cf0  
+\f0\b \cf2 is
+\f1\b0 \cf0  
+\f0\b \cf2 not
+\f1\b0 \cf0  
+\f0\b \cf7 None\cf4 :
+\f1\b0 \cf0 \
+    player_attributes
+\f0\b \cf4 [
+\f1\b0 \cf5 "x"
+\f0\b \cf4 ]
+\f1\b0 \cf0  
+\f0\b \cf4 =
+\f1\b0 \cf0  random
+\f0\b \cf4 .
+\f1\b0 \cf0 randint
+\f0\b \cf4 (
+\f1\b0 \cf6 0
+\f0\b \cf4 ,
+\f1\b0 \cf0  world_size
+\f0\b \cf4 -
+\f1\b0 \cf6 1
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+    player_attributes
+\f0\b \cf4 [
+\f1\b0 \cf5 "y"
+\f0\b \cf4 ]
+\f1\b0 \cf0  
+\f0\b \cf4 =
+\f1\b0 \cf0  random
+\f0\b \cf4 .
+\f1\b0 \cf0 randint
+\f0\b \cf4 (
+\f1\b0 \cf6 0
+\f0\b \cf4 ,
+\f1\b0 \cf0  world_size
+\f0\b \cf4 -
+\f1\b0 \cf6 1
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+\
+\pard\pardeftab708\ri-1184\partightenfactor0
+\cf3 # Define the main game loop\cf0 \
+\pard\pardeftab708\ri-1184\partightenfactor0
+
+\f0\b \cf2 while
+\f1\b0 \cf0  
+\f0\b \cf7 True\cf4 :
+\f1\b0 \cf0 \
+    \cf3 # Ask the player for a direction\cf0 \
+    direction 
+\f0\b \cf4 =
+\f1\b0 \cf0  
+\f0\b \cf7 input\cf4 (
+\f1\b0 \cf5 "Which direction do you want to go? (north/south/east/west) "
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+\
+    \cf3 # Move the player and check for collisions\cf0 \
+    move_player
+\f0\b \cf4 (
+\f1\b0 \cf0 direction
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+    collision 
+\f0\b \cf4 =
+\f1\b0 \cf0  check_collision
+\f0\b \cf4 ()
+\f1\b0 \cf0 \
+\
+    \cf3 # Handle the collision\cf0 \
+    
+\f0\b \cf2 if
+\f1\b0 \cf0  collision 
+\f0\b \cf2 is
+\f1\b0 \cf0  
+\f0\b \cf7 None\cf4 :
+\f1\b0 \cf0 \
+        \cf3 # No collision, keep exploring\cf0 \
+        
+\f0\b \cf7 print\cf4 (
+\f1\b0 \cf5 "You keep exploring..."
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+    
+\f0\b \cf2 elif
+\f1\b0 \cf0  collision 
+\f0\b \cf4 ==
+\f1\b0 \cf0  \cf5 "treasure"
+\f0\b \cf4 :
+\f1\b0 \cf0 \
+        \cf3 # Treasure found, game over\cf0 \
+        
+\f0\b \cf7 print\cf4 (
+\f1\b0 \cf5 "Congratulations! You found the treasure and won the game!"
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+        
+\f0\b \cf2 break
+\f1\b0 \cf0 \
+    
+\f0\b \cf2 else\cf4 :
+\f1\b0 \cf0 \
+        \cf3 # Collision with a monster, fight it\cf0 \
+\pard\pardeftab708\ri-1184\partightenfactor0
+
+\f2\fs22 \cf0 \
+\
+\
+\pard\pardeftab708\ri-1184\partightenfactor0
+
+\f0\b\fs20 \cf2 class
+\f1\b0 \cf0  
+\f0\b Creature\cf4 :
+\f1\b0 \cf0 \
+    
+\f0\b \cf2 def
+\f1\b0 \cf0  \cf8 __init__
+\f0\b \cf4 (
+\f1\b0 \cf0 self
+\f0\b \cf4 ,
+\f1\b0 \cf0  life_points
+\f0\b \cf4 ,
+\f1\b0 \cf0  strength
+\f0\b \cf4 ):
+\f1\b0 \cf0 \
+        self
+\f0\b \cf4 .
+\f1\b0 \cf0 life_points 
+\f0\b \cf4 =
+\f1\b0 \cf0  life_points\
+        self
+\f0\b \cf4 .
+\f1\b0 \cf0 strength 
+\f0\b \cf4 =
+\f1\b0 \cf0  strength\
+\
+    
+\f0\b \cf2 def
+\f1\b0 \cf0  \cf8 attack
+\f0\b \cf4 (
+\f1\b0 \cf0 self
+\f0\b \cf4 ,
+\f1\b0 \cf0  other
+\f0\b \cf4 ):
+\f1\b0 \cf0 \
+        damage 
+\f0\b \cf4 =
+\f1\b0 \cf0  self
+\f0\b \cf4 .
+\f1\b0 \cf0 strength\
+        
+\f0\b \cf7 print\cf4 (
+\f1\b0 \cf5 f"\{\cf0 self
+\f0\b \cf4 .
+\f1\b0 \cf0 __class__
+\f0\b \cf4 .
+\f1\b0 \cf0 __name__\cf5 \} attacks \{\cf0 other
+\f0\b \cf4 .
+\f1\b0 \cf0 __class__
+\f0\b \cf4 .
+\f1\b0 \cf0 __name__\cf5 \} for \{\cf0 damage\cf5 \} damage"
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+        other
+\f0\b \cf4 .
+\f1\b0 \cf0 take_damage
+\f0\b \cf4 (
+\f1\b0 \cf0 damage
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+\
+    
+\f0\b \cf2 def
+\f1\b0 \cf0  \cf8 take_damage
+\f0\b \cf4 (
+\f1\b0 \cf0 self
+\f0\b \cf4 ,
+\f1\b0 \cf0  damage
+\f0\b \cf4 ):
+\f1\b0 \cf0 \
+        self
+\f0\b \cf4 .
+\f1\b0 \cf0 life_points 
+\f0\b \cf4 -=
+\f1\b0 \cf0  damage\
+        
+\f0\b \cf2 if
+\f1\b0 \cf0  self
+\f0\b \cf4 .
+\f1\b0 \cf0 life_points 
+\f0\b \cf4 <=
+\f1\b0 \cf0  \cf6 0
+\f0\b \cf4 :
+\f1\b0 \cf0 \
+            
+\f0\b \cf7 print\cf4 (
+\f1\b0 \cf5 f"\{\cf0 self
+\f0\b \cf4 .
+\f1\b0 \cf0 __class__
+\f0\b \cf4 .
+\f1\b0 \cf0 __name__\cf5 \} is defeated"
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+\
+
+\f0\b \cf2 class
+\f1\b0 \cf0  
+\f0\b Player\cf4 (
+\f1\b0 \cf0 Creature
+\f0\b \cf4 ):
+\f1\b0 \cf0 \
+    
+\f0\b \cf2 def
+\f1\b0 \cf0  \cf8 __init__
+\f0\b \cf4 (
+\f1\b0 \cf0 self
+\f0\b \cf4 ):
+\f1\b0 \cf0 \
+        
+\f0\b \cf7 super\cf4 ().
+\f1\b0 \cf0 __init__
+\f0\b \cf4 (
+\f1\b0 \cf0 INITIAL_LIFE_POINTS
+\f0\b \cf4 ,
+\f1\b0 \cf0  INITIAL_STRENGTH
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+        self
+\f0\b \cf4 .
+\f1\b0 \cf0 experience_points 
+\f0\b \cf4 =
+\f1\b0 \cf0  \cf6 0\cf0 \
+\
+
+\f0\b \cf2 class
+\f1\b0 \cf0  
+\f0\b Monster\cf4 (
+\f1\b0 \cf0 Creature
+\f0\b \cf4 ):
+\f1\b0 \cf0 \
+    
+\f0\b \cf2 def
+\f1\b0 \cf0  \cf8 __init__
+\f0\b \cf4 (
+\f1\b0 \cf0 self
+\f0\b \cf4 ,
+\f1\b0 \cf0  strength
+\f0\b \cf4 ):
+\f1\b0 \cf0 \
+\pard\pardeftab708\ri-1184\sa120\qj\partightenfactor0
+\cf0         
+\f0\b \cf7 super\cf4 ().
+\f1\b0 \cf0 __init__
+\f0\b \cf4 (
+\f1\b0 \cf0 INITIAL_LIFE_POINTS
+\f0\b \cf4 ,
+\f1\b0 \cf0  strength
+\f0\b \cf4 )\
+\pard\pardeftab708\ri-1184\sa120\qj\partightenfactor0
+
+\f3\fs22 \cf0 \
+\
+\pard\pardeftab708\ri-1184\partightenfactor0
+
+\f0\fs20 \cf2 def
+\f1\b0 \cf0  \cf8 move_player
+\f0\b \cf4 (
+\f1\b0 \cf0 direction
+\f0\b \cf4 ):
+\f1\b0 \cf0 \
+    
+\f0\b \cf2 global
+\f1\b0 \cf0  player_x
+\f0\b \cf4 ,
+\f1\b0 \cf0  player_y\
+    
+\f0\b \cf2 if
+\f1\b0 \cf0  direction 
+\f0\b \cf4 ==
+\f1\b0 \cf0  \cf5 "north"\cf0  
+\f0\b \cf2 and
+\f1\b0 \cf0  player_x 
+\f0\b \cf4 >
+\f1\b0 \cf0  \cf6 0
+\f0\b \cf4 :
+\f1\b0 \cf0 \
+        player_x 
+\f0\b \cf4 -=
+\f1\b0 \cf0  \cf6 1\cf0 \
+    
+\f0\b \cf2 elif
+\f1\b0 \cf0  direction 
+\f0\b \cf4 ==
+\f1\b0 \cf0  \cf5 "south"\cf0  
+\f0\b \cf2 and
+\f1\b0 \cf0  player_x 
+\f0\b \cf4 <
+\f1\b0 \cf0  GRID_SIZE
+\f0\b \cf4 -
+\f1\b0 \cf6 1
+\f0\b \cf4 :
+\f1\b0 \cf0 \
+        player_x 
+\f0\b \cf4 +=
+\f1\b0 \cf0  \cf6 1\cf0 \
+    
+\f0\b \cf2 elif
+\f1\b0 \cf0  direction 
+\f0\b \cf4 ==
+\f1\b0 \cf0  \cf5 "west"\cf0  
+\f0\b \cf2 and
+\f1\b0 \cf0  player_y 
+\f0\b \cf4 >
+\f1\b0 \cf0  \cf6 0
+\f0\b \cf4 :
+\f1\b0 \cf0 \
+        player_y 
+\f0\b \cf4 -=
+\f1\b0 \cf0  \cf6 1\cf0 \
+    
+\f0\b \cf2 elif
+\f1\b0 \cf0  direction 
+\f0\b \cf4 ==
+\f1\b0 \cf0  \cf5 "east"\cf0  
+\f0\b \cf2 and
+\f1\b0 \cf0  player_y 
+\f0\b \cf4 <
+\f1\b0 \cf0  GRID_SIZE
+\f0\b \cf4 -
+\f1\b0 \cf6 1
+\f0\b \cf4 :
+\f1\b0 \cf0 \
+        player_y 
+\f0\b \cf4 +=
+\f1\b0 \cf0  \cf6 1\cf0 \
+\pard\pardeftab708\ri-1184\sb120\sa120\qj\partightenfactor0
+
+\f3\b\fs22 \cf0 \
+\
+\pard\pardeftab708\ri-1184\partightenfactor0
+
+\f1\b0\fs20 \cf3 # Define constants\cf0 \
+GRID_SIZE 
+\f0\b \cf4 =
+\f1\b0 \cf0  \cf6 200\cf0 \
+NUM_MONSTERS 
+\f0\b \cf4 =
+\f1\b0 \cf0  random
+\f0\b \cf4 .
+\f1\b0 \cf0 randint
+\f0\b \cf4 (
+\f1\b0 \cf6 50
+\f0\b \cf4 ,
+\f1\b0 \cf0  \cf6 100
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+DIRECTIONS 
+\f0\b \cf4 =
+\f1\b0 \cf0  
+\f0\b \cf4 [
+\f1\b0 \cf5 "north"
+\f0\b \cf4 ,
+\f1\b0 \cf0  \cf5 "south"
+\f0\b \cf4 ,
+\f1\b0 \cf0  \cf5 "east"
+\f0\b \cf4 ,
+\f1\b0 \cf0  \cf5 "west"
+\f0\b \cf4 ]
+\f1\b0 \cf0 \
+INITIAL_LIFE_POINTS 
+\f0\b \cf4 =
+\f1\b0 \cf0  \cf6 100\cf0 \
+INITIAL_STRENGTH 
+\f0\b \cf4 =
+\f1\b0 \cf0  \cf6 10\cf0 \
+\pard\pardeftab708\ri-1184\partightenfactor0
+
+\f2\fs22 \cf0 \
+\
+\
+\
+\pard\pardeftab708\ri-1184\partightenfactor0
+
+\f1\fs20 \cf3 # Initialize game\cf0 \
+grid 
+\f0\b \cf4 =
+\f1\b0 \cf0  generate_grid
+\f0\b \cf4 ()
+\f1\b0 \cf0 \
+creatures 
+\f0\b \cf4 =
+\f1\b0 \cf0  generate_creatures
+\f0\b \cf4 ()
+\f1\b0 \cf0 \
+player_x
+\f0\b \cf4 ,
+\f1\b0 \cf0  player_y
+\f0\b \cf4 ,
+\f1\b0 \cf0  player 
+\f0\b \cf4 =
+\f1\b0 \cf0  creatures
+\f0\b \cf4 [
+\f1\b0 \cf6 0
+\f0\b \cf4 ]
+\f1\b0 \cf0 \
+\
+\cf3 # Main game loop\cf0 \
+\pard\pardeftab708\ri-1184\sa120\qj\partightenfactor0
+\cf0 find_treasure
+\f0\b \cf4 ()\
+\pard\pardeftab708\ri-1184\partightenfactor0
+
+\f2\b0\fs22 \cf0 \
+\
+\
+\pard\pardeftab708\ri-1184\partightenfactor0
+
+\f0\b\fs20 \cf2 def
+\f1\b0 \cf0  \cf8 generate_grid
+\f0\b \cf4 ():
+\f1\b0 \cf0 \
+    
+\f0\b \cf2 return
+\f1\b0 \cf0  
+\f0\b \cf4 [[\cf7 None
+\f1\b0 \cf0  
+\f0\b \cf2 for
+\f1\b0 \cf0  _ 
+\f0\b \cf2 in
+\f1\b0 \cf0  
+\f0\b \cf7 range\cf4 (
+\f1\b0 \cf0 GRID_SIZE
+\f0\b \cf4 )]
+\f1\b0 \cf0  
+\f0\b \cf2 for
+\f1\b0 \cf0  _ 
+\f0\b \cf2 in
+\f1\b0 \cf0  
+\f0\b \cf7 range\cf4 (
+\f1\b0 \cf0 GRID_SIZE
+\f0\b \cf4 )]
+\f1\b0 \cf0 \
+\pard\pardeftab708\ri-1184\sb120\sa120\qj\partightenfactor0
+
+\f2\fs22 \cf0 La fonction qui g\'e9n\'e8re les cr\'e9atures g\'e9n\'e8re bien le joueur et les monstres en quantit\'e9 demand\'e9e, et place bien tout ce petit monde sur le terrain \'e0 des positions al\'e9atoires en veillant apparemment \'e0 ce qu\'92ils ne se marchent pas sur les pieds\'a0:\
+\pard\pardeftab708\ri-1184\partightenfactor0
+
+\f0\b\fs20 \cf2 def
+\f1\b0 \cf0  \cf8 generate_creatures
+\f0\b \cf4 ():
+\f1\b0 \cf0 \
+    creatures 
+\f0\b \cf4 =
+\f1\b0 \cf0  
+\f0\b \cf4 []
+\f1\b0 \cf0 \
+    \cf3 # Generate player at random location\cf0 \
+    player 
+\f0\b \cf4 =
+\f1\b0 \cf0  Player
+\f0\b \cf4 ()
+\f1\b0 \cf0 \
+    player_x
+\f0\b \cf4 ,
+\f1\b0 \cf0  player_y 
+\f0\b \cf4 =
+\f1\b0 \cf0  generate_random_location
+\f0\b \cf4 ()
+\f1\b0 \cf0 \
+    creatures
+\f0\b \cf4 .
+\f1\b0 \cf0 append
+\f0\b \cf4 ((
+\f1\b0 \cf0 player_x
+\f0\b \cf4 ,
+\f1\b0 \cf0  player_y
+\f0\b \cf4 ,
+\f1\b0 \cf0  player
+\f0\b \cf4 ))
+\f1\b0 \cf0 \
+    \cf3 # Generate monsters at random locations\cf0 \
+    
+\f0\b \cf2 for
+\f1\b0 \cf0  _ 
+\f0\b \cf2 in
+\f1\b0 \cf0  
+\f0\b \cf7 range\cf4 (
+\f1\b0 \cf0 NUM_MONSTERS
+\f0\b \cf4 ):
+\f1\b0 \cf0 \
+        monster_strength 
+\f0\b \cf4 =
+\f1\b0 \cf0  random
+\f0\b \cf4 .
+\f1\b0 \cf0 randint
+\f0\b \cf4 (
+\f1\b0 \cf6 1
+\f0\b \cf4 ,
+\f1\b0 \cf0  \cf6 10
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+        monster_x
+\f0\b \cf4 ,
+\f1\b0 \cf0  monster_y 
+\f0\b \cf4 =
+\f1\b0 \cf0  generate_random_location
+\f0\b \cf4 ()
+\f1\b0 \cf0 \
+        monster 
+\f0\b \cf4 =
+\f1\b0 \cf0  Monster
+\f0\b \cf4 (
+\f1\b0 \cf0 monster_strength
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+        creatures
+\f0\b \cf4 .
+\f1\b0 \cf0 append
+\f0\b \cf4 ((
+\f1\b0 \cf0 monster_x
+\f0\b \cf4 ,
+\f1\b0 \cf0  monster_y
+\f0\b \cf4 ,
+\f1\b0 \cf0  monster
+\f0\b \cf4 ))
+\f1\b0 \cf0 \
+    
+\f0\b \cf2 return
+\f1\b0 \cf0  creatures\
+\
+
+\f0\b \cf2 def
+\f1\b0 \cf0  \cf8 generate_random_location
+\f0\b \cf4 ():
+\f1\b0 \cf0 \
+    
+\f0\b \cf2 while
+\f1\b0 \cf0  
+\f0\b \cf7 True\cf4 :
+\f1\b0 \cf0 \
+        x
+\f0\b \cf4 ,
+\f1\b0 \cf0  y 
+\f0\b \cf4 =
+\f1\b0 \cf0  random
+\f0\b \cf4 .
+\f1\b0 \cf0 randint
+\f0\b \cf4 (
+\f1\b0 \cf6 0
+\f0\b \cf4 ,
+\f1\b0 \cf0  GRID_SIZE
+\f0\b \cf4 -
+\f1\b0 \cf6 1
+\f0\b \cf4 ),
+\f1\b0 \cf0  random
+\f0\b \cf4 .
+\f1\b0 \cf0 randint
+\f0\b \cf4 (
+\f1\b0 \cf6 0
+\f0\b \cf4 ,
+\f1\b0 \cf0  GRID_SIZE
+\f0\b \cf4 -
+\f1\b0 \cf6 1
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+        
+\f0\b \cf2 if
+\f1\b0 \cf0  grid
+\f0\b \cf4 [
+\f1\b0 \cf0 x
+\f0\b \cf4 ][
+\f1\b0 \cf0 y
+\f0\b \cf4 ]
+\f1\b0 \cf0  
+\f0\b \cf2 is
+\f1\b0 \cf0  
+\f0\b \cf7 None\cf4 :
+\f1\b0 \cf0 \
+\pard\pardeftab708\ri-1184\qj\partightenfactor0
+\cf0             
+\f0\b \cf2 return
+\f1\b0 \cf0  x
+\f0\b \cf4 ,
+\f1\b0 \cf0  y\
+\pard\pardeftab708\ri-1184\partightenfactor0
+
+\f2\fs22 \cf0 \
+\
+\
+\
+\pard\pardeftab708\ri-1184\partightenfactor0
+
+\f0\b\fs20 \cf2 def
+\f1\b0 \cf0  \cf8 find_treasure
+\f0\b \cf4 ():
+\f1\b0 \cf0 \
+    treasure_x
+\f0\b \cf4 ,
+\f1\b0 \cf0  treasure_y 
+\f0\b \cf4 =
+\f1\b0 \cf0  generate_random_location
+\f0\b \cf4 ()
+\f1\b0 \cf0 \
+    
+\f0\b \cf2 while
+\f1\b0 \cf0  grid
+\f0\b \cf4 [
+\f1\b0 \cf0 treasure_x
+\f0\b \cf4 ][
+\f1\b0 \cf0 treasure_y
+\f0\b \cf4 ]
+\f1\b0 \cf0  
+\f0\b \cf2 is
+\f1\b0 \cf0  
+\f0\b \cf2 not
+\f1\b0 \cf0  
+\f0\b \cf7 None\cf4 :
+\f1\b0 \cf0 \
+        treasure_x
+\f0\b \cf4 ,
+\f1\b0 \cf0  treasure_y 
+\f0\b \cf4 =
+\f1\b0 \cf0  generate_random_location
+\f0\b \cf4 ()
+\f1\b0 \cf0 \
+    grid
+\f0\b \cf4 [
+\f1\b0 \cf0 treasure_x
+\f0\b \cf4 ][
+\f1\b0 \cf0 treasure_y
+\f0\b \cf4 ]
+\f1\b0 \cf0  
+\f0\b \cf4 =
+\f1\b0 \cf0  \cf5 "treasure"\cf0 \
+\pard\pardeftab708\ri-1184\sa120\qj\partightenfactor0
+\cf0     
+\f0\b \cf7 print\cf4 (
+\f1\b0 \cf5 f"Treasure is located at (\{\cf0 treasure_x\cf5 \}, \{\cf0 treasure_y\cf5 \})"
+\f0\b \cf4 )\
+\pard\pardeftab708\ri-1184\partightenfactor0
+
+\f2\b0\fs22 \cf0 \
+\
+\pard\pardeftab708\ri-1184\partightenfactor0
+
+\f1\fs20 \cf0 random_locations 
+\f0\b \cf4 =
+\f1\b0 \cf0  
+\f0\b \cf4 [
+\f1\b0 \cf0 i 
+\f0\b \cf2 for
+\f1\b0 \cf0  i 
+\f0\b \cf2 in
+\f1\b0 \cf0  
+\f0\b \cf7 range
+\f1\b0 \cf0  
+\f0\b \cf4 (
+\f1\b0 \cf0 GRID_SIZE 
+\f0\b \cf4 *
+\f1\b0 \cf0  GRID_SIZE
+\f0\b \cf4 )]
+\f1\b0 \cf0 \
+\pard\pardeftab708\ri-1184\partightenfactor0
+
+\f0\b \cf2 for
+\f1\b0 \cf0  i 
+\f0\b \cf2 in
+\f1\b0 \cf0  
+\f0\b \cf7 range
+\f1\b0 \cf0  
+\f0\b \cf4 (\cf7 len
+\f1\b0 \cf0  
+\f0\b \cf4 (
+\f1\b0 \cf0 random_locations
+\f0\b \cf4 )
+\f1\b0 \cf0  
+\f0\b \cf4 -
+\f1\b0 \cf0  \cf6 1
+\f0\b \cf4 ,
+\f1\b0 \cf0  \cf6 0
+\f0\b \cf4 ,
+\f1\b0 \cf0  
+\f0\b \cf4 -
+\f1\b0 \cf6 1
+\f0\b \cf4 ):
+\f1\b0 \cf0 \
+    j 
+\f0\b \cf4 =
+\f1\b0 \cf0  random
+\f0\b \cf4 .
+\f1\b0 \cf0 randint 
+\f0\b \cf4 (
+\f1\b0 \cf6 0
+\f0\b \cf4 ,
+\f1\b0 \cf0  i
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+    random_locations
+\f0\b \cf4 [
+\f1\b0 \cf0 i
+\f0\b \cf4 ],
+\f1\b0 \cf0  random_locations
+\f0\b \cf4 [
+\f1\b0 \cf0 j
+\f0\b \cf4 ]
+\f1\b0 \cf0  
+\f0\b \cf4 =
+\f1\b0 \cf0  random_locations
+\f0\b \cf4 [
+\f1\b0 \cf0 j
+\f0\b \cf4 ],
+\f1\b0 \cf0  random_locations
+\f0\b \cf4 [
+\f1\b0 \cf0 i
+\f0\b \cf4 ]
+\f1\b0 \cf0 \
+
+\f0\b \cf2 for
+\f1\b0 \cf0  i 
+\f0\b \cf2 in
+\f1\b0 \cf0  
+\f0\b \cf7 range
+\f1\b0 \cf0  
+\f0\b \cf4 (\cf7 len
+\f1\b0 \cf0  
+\f0\b \cf4 (
+\f1\b0 \cf0 random_locations
+\f0\b \cf4 )):
+\f1\b0 \cf0 \
+    random_locations
+\f0\b \cf4 [
+\f1\b0 \cf0 i
+\f0\b \cf4 ]
+\f1\b0 \cf0  
+\f0\b \cf4 =
+\f1\b0 \cf0  
+\f0\b \cf4 (
+\f1\b0 \cf0 random_locations
+\f0\b \cf4 [
+\f1\b0 \cf0 i
+\f0\b \cf4 ]
+\f1\b0 \cf0  
+\f0\b \cf4 %
+\f1\b0 \cf0  GRID_SIZE
+\f0\b \cf4 ,
+\f1\b0 \cf0  random_locations
+\f0\b \cf4 [
+\f1\b0 \cf0 i
+\f0\b \cf4 ]
+\f1\b0 \cf0  
+\f0\b \cf4 //
+\f1\b0 \cf0  GRID_SIZE
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+\pard\pardeftab708\ri-1184\partightenfactor0
+
+\f3\b\fs22 \cf0 \
+\
+\
+\pard\pardeftab708\ri-1184\partightenfactor0
+
+\f0\fs20 \cf2 while
+\f1\b0 \cf0  
+\f0\b \cf7 True\cf4 :
+\f1\b0 \cf0 \
+    grid
+\f0\b \cf4 [
+\f1\b0 \cf0 player_x
+\f0\b \cf4 ][
+\f1\b0 \cf0 player_y
+\f0\b \cf4 ]
+\f1\b0 \cf0  
+\f0\b \cf4 =
+\f1\b0 \cf0  \cf5 "player"\cf0 \
+    
+\f0\b \cf7 print\cf4 (
+\f1\b0 \cf5 f"Player is at (\{\cf0 player_x\cf5 \}, \{\cf0 player_y\cf5 \})"
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+    print_status
+\f0\b \cf4 ()
+\f1\b0 \cf0 \
+    direction 
+\f0\b \cf4 =
+\f1\b0 \cf0  
+\f0\b \cf7 input\cf4 (
+\f1\b0 \cf5 "Where do you want to go (north/south/east/west)? "
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+    
+\f0\b \cf2 if
+\f1\b0 \cf0  direction 
+\f0\b \cf2 not
+\f1\b0 \cf0  
+\f0\b \cf2 in
+\f1\b0 \cf0  DIRECTIONS
+\f0\b \cf4 :
+\f1\b0 \cf0 \
+        
+\f0\b \cf7 print\cf4 (
+\f1\b0 \cf5 "Invalid direction, try again"
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+        
+\f0\b \cf2 continue
+\f1\b0 \cf0 \
+    move_player
+\f0\b \cf4 (
+\f1\b0 \cf0 direction
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+    
+\f0\b \cf2 if
+\f1\b0 \cf0  grid
+\f0\b \cf4 [
+\f1\b0 \cf0 player_x
+\f0\b \cf4 ][
+\f1\b0 \cf0 player_y
+\f0\b \cf4 ]
+\f1\b0 \cf0  
+\f0\b \cf4 ==
+\f1\b0 \cf0  \cf5 "treasure"
+\f0\b \cf4 :
+\f1\b0 \cf0 \
+        
+\f0\b \cf7 print\cf4 (
+\f1\b0 \cf5 "Congratulations, you found the treasure and won the game!"
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+        
+\f0\b \cf2 break
+\f1\b0 \cf0 \
+    
+\f0\b \cf2 elif
+\f1\b0 \cf0  
+\f0\b \cf7 any\cf4 (
+\f1\b0 \cf0 x 
+\f0\b \cf4 ==
+\f1\b0 \cf0  player_x 
+\f0\b \cf2 and
+\f1\b0 \cf0  y 
+\f0\b \cf4 ==
+\f1\b0 \cf0  player_y 
+\f0\b \cf2 for
+\f1\b0 \cf0  x
+\f0\b \cf4 ,
+\f1\b0 \cf0  y
+\f0\b \cf4 ,
+\f1\b0 \cf0  creature 
+\f0\b \cf2 in
+\f1\b0 \cf0  creatures 
+\f0\b \cf2 if
+\f1\b0 \cf0  
+\f0\b \cf7 isinstance\cf4 (
+\f1\b0 \cf0 creature
+\f0\b \cf4 ,
+\f1\b0 \cf0  Monster
+\f0\b \cf4 )):
+\f1\b0 \cf0 \
+        fight_monster
+\f0\b \cf4 (
+\f1\b0 \cf0 player_x
+\f0\b \cf4 ,
+\f1\b0 \cf0  player_y
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+        
+\f0\b \cf2 if
+\f1\b0 \cf0  player
+\f0\b \cf4 .
+\f1\b0 \cf0 life_points 
+\f0\b \cf4 <=
+\f1\b0 \cf0  \cf6 0
+\f0\b \cf4 :
+\f1\b0 \cf0 \
+            restart_game
+\f0\b \cf4 ()
+\f1\b0 \cf0 \
+            
+\f0\b \cf2 continue
+\f1\b0 \cf0 \
+    
+\f0\b \cf2 else\cf4 :
+\f1\b0 \cf0 \
+\pard\pardeftab708\ri-1184\qj\partightenfactor0
+\cf0         grid
+\f0\b \cf4 [
+\f1\b0 \cf0 player_x
+\f0\b \cf4 ][
+\f1\b0 \cf0 player_y
+\f0\b \cf4 ]
+\f1\b0 \cf0  
+\f0\b \cf4 =
+\f1\b0 \cf0  \cf5 "player"\
+\pard\pardeftab708\ri-1184\partightenfactor0
+
+\f2\fs22 \cf0 \
+\
+\
+\pard\pardeftab708\ri-1184\partightenfactor0
+
+\f0\b\fs20 \cf2 def
+\f1\b0 \cf0  \cf8 print_status
+\f0\b \cf4 ():
+\f1\b0 \cf0 \
+    
+\f0\b \cf7 print\cf4 (
+\f1\b0 \cf5 f"Player: life points=\{\cf0 player
+\f0\b \cf4 .
+\f1\b0 \cf0 life_points\cf5 \}, strength=\{\cf0 player
+\f0\b \cf4 .
+\f1\b0 \cf0 strength\cf5 \}, experience points=\{\cf0 player
+\f0\b \cf4 .
+\f1\b0 \cf0 experience_points\cf5 \}"
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+    
+\f0\b \cf2 for
+\f1\b0 \cf0  x
+\f0\b \cf4 ,
+\f1\b0 \cf0  y
+\f0\b \cf4 ,
+\f1\b0 \cf0  creature 
+\f0\b \cf2 in
+\f1\b0 \cf0  creatures
+\f0\b \cf4 :
+\f1\b0 \cf0 \
+        
+\f0\b \cf2 if
+\f1\b0 \cf0  
+\f0\b \cf7 isinstance\cf4 (
+\f1\b0 \cf0 creature
+\f0\b \cf4 ,
+\f1\b0 \cf0  Monster
+\f0\b \cf4 ):
+\f1\b0 \cf0 \
+            
+\f0\b \cf7 print\cf4 (
+\f1\b0 \cf5 f"Monster at (\{\cf0 x\cf5 \}, \{\cf0 y\cf5 \}): life points=\{\cf0 creature
+\f0\b \cf4 .
+\f1\b0 \cf0 life_points\cf5 \}, strength=\{\cf0 creature
+\f0\b \cf4 .
+\f1\b0 \cf0 strength\cf5 \}"
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+\pard\pardeftab708\ri-1184\partightenfactor0
+
+\f2\fs22 \cf0 \
+\
+\
+\pard\pardeftab708\ri-1184\partightenfactor0
+
+\f0\b\fs20 \cf2 def
+\f1\b0 \cf0  \cf8 fight_monster
+\f0\b \cf4 (
+\f1\b0 \cf0 x
+\f0\b \cf4 ,
+\f1\b0 \cf0  y
+\f0\b \cf4 ):
+\f1\b0 \cf0 \
+    monster 
+\f0\b \cf4 =
+\f1\b0 \cf0  
+\f0\b \cf7 None
+\f1\b0 \cf0 \
+    
+\f0\b \cf2 for
+\f1\b0 \cf0  c_x
+\f0\b \cf4 ,
+\f1\b0 \cf0  c_y
+\f0\b \cf4 ,
+\f1\b0 \cf0  creature 
+\f0\b \cf2 in
+\f1\b0 \cf0  creatures
+\f0\b \cf4 :
+\f1\b0 \cf0 \
+        
+\f0\b \cf2 if
+\f1\b0 \cf0  c_x 
+\f0\b \cf4 ==
+\f1\b0 \cf0  x 
+\f0\b \cf2 and
+\f1\b0 \cf0  c_y 
+\f0\b \cf4 ==
+\f1\b0 \cf0  y 
+\f0\b \cf2 and
+\f1\b0 \cf0  
+\f0\b \cf7 isinstance\cf4 (
+\f1\b0 \cf0 creature
+\f0\b \cf4 ,
+\f1\b0 \cf0  Monster
+\f0\b \cf4 ):
+\f1\b0 \cf0 \
+            monster 
+\f0\b \cf4 =
+\f1\b0 \cf0  creature\
+            
+\f0\b \cf2 break
+\f1\b0 \cf0 \
+    
+\f0\b \cf2 if
+\f1\b0 \cf0  monster 
+\f0\b \cf2 is
+\f1\b0 \cf0  
+\f0\b \cf7 None\cf4 :
+\f1\b0 \cf0 \
+        
+\f0\b \cf2 return
+\f1\b0 \cf0 \
+    
+\f0\b \cf7 print\cf4 (
+\f1\b0 \cf5 f"You encounter a monster at (\{\cf0 x\cf5 \}, \{\cf0 y\cf5 \})"
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+    
+\f0\b \cf2 while
+\f1\b0 \cf0  
+\f0\b \cf7 True\cf4 :
+\f1\b0 \cf0 \
+        \cf3 # Player attacks\cf0 \
+        player
+\f0\b \cf4 .
+\f1\b0 \cf0 attack
+\f0\b \cf4 (
+\f1\b0 \cf0 monster
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+        
+\f0\b \cf2 if
+\f1\b0 \cf0  monster
+\f0\b \cf4 .
+\f1\b0 \cf0 life_points 
+\f0\b \cf4 <=
+\f1\b0 \cf0  \cf6 0
+\f0\b \cf4 :
+\f1\b0 \cf0 \
+            player
+\f0\b \cf4 .
+\f1\b0 \cf0 experience_points 
+\f0\b \cf4 +=
+\f1\b0 \cf0  monster
+\f0\b \cf4 .
+\f1\b0 \cf0 strength\
+            creatures
+\f0\b \cf4 .
+\f1\b0 \cf0 remove
+\f0\b \cf4 ((
+\f1\b0 \cf0 x
+\f0\b \cf4 ,
+\f1\b0 \cf0  y
+\f0\b \cf4 ,
+\f1\b0 \cf0  monster
+\f0\b \cf4 ))
+\f1\b0 \cf0 \
+            
+\f0\b \cf7 print\cf4 (
+\f1\b0 \cf5 f"You defeated the monster and earned \{\cf0 monster
+\f0\b \cf4 .
+\f1\b0 \cf0 strength\cf5 \} experience points"
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+            
+\f0\b \cf2 break
+\f1\b0 \cf0 \
+        \cf3 # Monster attacks\cf0 \
+        monster
+\f0\b \cf4 .
+\f1\b0 \cf0 attack
+\f0\b \cf4 (
+\f1\b0 \cf0 player
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+        
+\f0\b \cf2 if
+\f1\b0 \cf0  player
+\f0\b \cf4 .
+\f1\b0 \cf0 life_points 
+\f0\b \cf4 <=
+\f1\b0 \cf0  \cf6 0
+\f0\b \cf4 :
+\f1\b0 \cf0 \
+            
+\f0\b \cf7 print\cf4 (
+\f1\b0 \cf5 "You were defeated by the monster"
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+            restart_game
+\f0\b \cf4 ()
+\f1\b0 \cf0 \
+\pard\pardeftab708\ri-1184\partightenfactor0
+
+\f2\fs22 \cf0 \
+\
+\
+\pard\pardeftab708\ri-1184\partightenfactor0
+
+\f0\b\fs20 \cf2 def
+\f1\b0 \cf0  \cf8 restart_game
+\f0\b \cf4 ():
+\f1\b0 \cf0 \
+    
+\f0\b \cf2 global
+\f1\b0 \cf0  grid
+\f0\b \cf4 ,
+\f1\b0 \cf0  creatures
+\f0\b \cf4 ,
+\f1\b0 \cf0  player_x
+\f0\b \cf4 ,
+\f1\b0 \cf0  player_y
+\f0\b \cf4 ,
+\f1\b0 \cf0  player\
+    
+\f0\b \cf7 print\cf4 (
+\f1\b0 \cf5 "Restarting game..."
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+    grid 
+\f0\b \cf4 =
+\f1\b0 \cf0  generate_grid
+\f0\b \cf4 ()
+\f1\b0 \cf0 \
+    creatures 
+\f0\b \cf4 =
+\f1\b0 \cf0  generate_creatures
+\f0\b \cf4 ()
+\f1\b0 \cf0 \
+    player_x
+\f0\b \cf4 ,
+\f1\b0 \cf0  player_y
+\f0\b \cf4 ,
+\f1\b0 \cf0  player 
+\f0\b \cf4 =
+\f1\b0 \cf0  
+\f0\b \cf7 None\cf4 ,
+\f1\b0 \cf0  
+\f0\b \cf7 None\cf4 ,
+\f1\b0 \cf0  
+\f0\b \cf7 None
+\f1\b0 \cf0 \
+    
+\f0\b \cf2 while
+\f1\b0 \cf0  player 
+\f0\b \cf2 is
+\f1\b0 \cf0  
+\f0\b \cf7 None\cf4 :
+\f1\b0 \cf0 \
+        x
+\f0\b \cf4 ,
+\f1\b0 \cf0  y 
+\f0\b \cf4 =
+\f1\b0 \cf0  generate_random_location
+\f0\b \cf4 ()
+\f1\b0 \cf0 \
+        
+\f0\b \cf2 if
+\f1\b0 \cf0  grid
+\f0\b \cf4 [
+\f1\b0 \cf0 x
+\f0\b \cf4 ][
+\f1\b0 \cf0 y
+\f0\b \cf4 ]
+\f1\b0 \cf0  
+\f0\b \cf2 is
+\f1\b0 \cf0  
+\f0\b \cf7 None\cf4 :
+\f1\b0 \cf0 \
+            player_x
+\f0\b \cf4 ,
+\f1\b0 \cf0  player_y 
+\f0\b \cf4 =
+\f1\b0 \cf0  x
+\f0\b \cf4 ,
+\f1\b0 \cf0  y\
+            player 
+\f0\b \cf4 =
+\f1\b0 \cf0  creatures
+\f0\b \cf4 [
+\f1\b0 \cf6 0
+\f0\b \cf4 ][
+\f1\b0 \cf6 2
+\f0\b \cf4 ]
+\f1\b0 \cf0 \
+            creatures
+\f0\b \cf4 [
+\f1\b0 \cf6 0
+\f0\b \cf4 ]
+\f1\b0 \cf0  
+\f0\b \cf4 =
+\f1\b0 \cf0  
+\f0\b \cf4 (
+\f1\b0 \cf0 x
+\f0\b \cf4 ,
+\f1\b0 \cf0  y
+\f0\b \cf4 ,
+\f1\b0 \cf0  player
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+\pard\pardeftab708\ri-1184\partightenfactor0
+
+\f2\fs22 \cf0 \
+\
+\pard\pardeftab708\ri-1184\partightenfactor0
+
+\f0\b\fs20 \cf2 import
+\f1\b0 \cf0  random\
+\
+
+\f0\b \cf2 class
+\f1\b0 \cf0  
+\f0\b Creature\cf4 :
+\f1\b0 \cf0 \
+    
+\f0\b \cf2 def
+\f1\b0 \cf0  \cf8 __init__
+\f0\b \cf4 (
+\f1\b0 \cf0 self
+\f0\b \cf4 ,
+\f1\b0 \cf0  life_points
+\f0\b \cf4 =
+\f1\b0 \cf0 random
+\f0\b \cf4 .
+\f1\b0 \cf0 randint
+\f0\b \cf4 (
+\f1\b0 \cf6 10
+\f0\b \cf4 ,
+\f1\b0 \cf6 100
+\f0\b \cf4 ),
+\f1\b0 \cf0  strength
+\f0\b \cf4 =
+\f1\b0 \cf0 random
+\f0\b \cf4 .
+\f1\b0 \cf0 randint
+\f0\b \cf4 (
+\f1\b0 \cf6 10
+\f0\b \cf4 ,
+\f1\b0 \cf6 100
+\f0\b \cf4 ),
+\f1\b0 \cf0  experience
+\f0\b \cf4 =
+\f1\b0 \cf6 0
+\f0\b \cf4 ,
+\f1\b0 \cf0  coordinates
+\f0\b \cf4 =(
+\f1\b0 \cf6 0
+\f0\b \cf4 ,
+\f1\b0 \cf6 0
+\f0\b \cf4 )):
+\f1\b0 \cf0 \
+        self
+\f0\b \cf4 .
+\f1\b0 \cf0 life_points 
+\f0\b \cf4 =
+\f1\b0 \cf0  life_points\
+        self
+\f0\b \cf4 .
+\f1\b0 \cf0 strength 
+\f0\b \cf4 =
+\f1\b0 \cf0  strength\
+        self
+\f0\b \cf4 .
+\f1\b0 \cf0 experience 
+\f0\b \cf4 =
+\f1\b0 \cf0  experience\
+\pard\pardeftab708\ri-1184\qj\partightenfactor0
+\cf0         self
+\f0\b \cf4 .
+\f1\b0 \cf0 coordinates 
+\f0\b \cf4 =
+\f1\b0 \cf0  coordinates\
+\pard\pardeftab708\ri-1184\partightenfactor0
+
+\f2\fs22 \cf0 \
+\
+\pard\pardeftab708\ri-1184\partightenfactor0
+
+\f0\b\fs20 \cf2 class
+\f1\b0 \cf0  
+\f0\b Playfield\cf4 :
+\f1\b0 \cf0 \
+    
+\f0\b \cf2 def
+\f1\b0 \cf0  \cf8 __init__
+\f0\b \cf4 (
+\f1\b0 \cf0 self
+\f0\b \cf4 ,
+\f1\b0 \cf0  width
+\f0\b \cf4 ,
+\f1\b0 \cf0  height
+\f0\b \cf4 ):
+\f1\b0 \cf0 \
+        self
+\f0\b \cf4 .
+\f1\b0 \cf0 width 
+\f0\b \cf4 =
+\f1\b0 \cf0  width\
+        self
+\f0\b \cf4 .
+\f1\b0 \cf0 height 
+\f0\b \cf4 =
+\f1\b0 \cf0  height\
+\pard\pardeftab708\ri-1184\partightenfactor0
+
+\f2\fs22 \cf0 \
+\
+\pard\pardeftab708\ri-1184\partightenfactor0
+
+\f1\fs20 \cf0     
+\f0\b \cf2 def
+\f1\b0 \cf0  \cf8 moveTo
+\f0\b \cf4 (
+\f1\b0 \cf0 self
+\f0\b \cf4 ,
+\f1\b0 \cf0  playfield
+\f0\b \cf4 ,
+\f1\b0 \cf0  coordinates
+\f0\b \cf4 ):
+\f1\b0 \cf0 \
+        
+\f0\b \cf2 if
+\f1\b0 \cf0  coordinates
+\f0\b \cf4 [
+\f1\b0 \cf6 0
+\f0\b \cf4 ]
+\f1\b0 \cf0  
+\f0\b \cf4 >
+\f1\b0 \cf0  playfield
+\f0\b \cf4 .
+\f1\b0 \cf0 width 
+\f0\b \cf2 or
+\f1\b0 \cf0  coordinates
+\f0\b \cf4 [
+\f1\b0 \cf6 1
+\f0\b \cf4 ]
+\f1\b0 \cf0  
+\f0\b \cf4 >
+\f1\b0 \cf0  playfield
+\f0\b \cf4 .
+\f1\b0 \cf0 height
+\f0\b \cf4 :
+\f1\b0 \cf0 \
+            
+\f0\b \cf7 print\cf4 (
+\f1\b0 \cf5 "Coordinates are out of bounds."
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+            
+\f0\b \cf2 return
+\f1\b0 \cf0 \
+        self
+\f0\b \cf4 .
+\f1\b0 \cf0 coordinates 
+\f0\b \cf4 =
+\f1\b0 \cf0  coordinates\
+\pard\pardeftab708\ri-1184\partightenfactor0
+
+\f2\fs22 \cf0 \
+\
+\pard\pardeftab708\ri-1184\partightenfactor0
+
+\f0\b\fs20 \cf2 class
+\f1\b0 \cf0  
+\f0\b Playfield\cf4 :
+\f1\b0 \cf0 \
+    
+\f0\b \cf2 def
+\f1\b0 \cf0  \cf8 __init__
+\f0\b \cf4 (
+\f1\b0 \cf0 self
+\f0\b \cf4 ,
+\f1\b0 \cf0  width
+\f0\b \cf4 ,
+\f1\b0 \cf0  height
+\f0\b \cf4 ):
+\f1\b0 \cf0 \
+        self
+\f0\b \cf4 .
+\f1\b0 \cf0 width 
+\f0\b \cf4 =
+\f1\b0 \cf0  width\
+        self
+\f0\b \cf4 .
+\f1\b0 \cf0 height 
+\f0\b \cf4 =
+\f1\b0 \cf0  height\
+\
+
+\f0\b \cf2 class
+\f1\b0 \cf0  
+\f0\b Creature\cf4 :
+\f1\b0 \cf0 \
+    
+\f0\b \cf2 def
+\f1\b0 \cf0  \cf8 __init__
+\f0\b \cf4 (
+\f1\b0 \cf0 self
+\f0\b \cf4 ,
+\f1\b0 \cf0  x
+\f0\b \cf4 ,
+\f1\b0 \cf0  y
+\f0\b \cf4 ):
+\f1\b0 \cf0 \
+        self
+\f0\b \cf4 .
+\f1\b0 \cf0 x 
+\f0\b \cf4 =
+\f1\b0 \cf0  x\
+        self
+\f0\b \cf4 .
+\f1\b0 \cf0 y 
+\f0\b \cf4 =
+\f1\b0 \cf0  y\
+\
+    
+\f0\b \cf2 def
+\f1\b0 \cf0  \cf8 moveTo
+\f0\b \cf4 (
+\f1\b0 \cf0 self
+\f0\b \cf4 ,
+\f1\b0 \cf0  playfield
+\f0\b \cf4 ,
+\f1\b0 \cf0  x
+\f0\b \cf4 ,
+\f1\b0 \cf0  y
+\f0\b \cf4 ):
+\f1\b0 \cf0 \
+        
+\f0\b \cf2 if
+\f1\b0 \cf0  x 
+\f0\b \cf4 <
+\f1\b0 \cf0  \cf6 0\cf0  
+\f0\b \cf2 or
+\f1\b0 \cf0  x 
+\f0\b \cf4 >=
+\f1\b0 \cf0  playfield
+\f0\b \cf4 .
+\f1\b0 \cf0 width 
+\f0\b \cf2 or
+\f1\b0 \cf0  y 
+\f0\b \cf4 <
+\f1\b0 \cf0  \cf6 0\cf0  
+\f0\b \cf2 or
+\f1\b0 \cf0  y 
+\f0\b \cf4 >=
+\f1\b0 \cf0  playfield
+\f0\b \cf4 .
+\f1\b0 \cf0 height
+\f0\b \cf4 :
+\f1\b0 \cf0 \
+            
+\f0\b \cf7 print\cf4 (
+\f1\b0 \cf5 "Cannot move creature outside playfield!"
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+            
+\f0\b \cf2 return
+\f1\b0 \cf0 \
+\
+        self
+\f0\b \cf4 .
+\f1\b0 \cf0 x 
+\f0\b \cf4 =
+\f1\b0 \cf0  x\
+        self
+\f0\b \cf4 .
+\f1\b0 \cf0 y 
+\f0\b \cf4 =
+\f1\b0 \cf0  y\
+\pard\pardeftab708\ri-1184\partightenfactor0
+
+\f2\fs22 \cf0 \
+\
+\
+\pard\pardeftab708\ri-1184\partightenfactor0
+
+\f0\b\fs20 \cf2 class
+\f1\b0 \cf0  
+\f0\b Game\cf4 :
+\f1\b0 \cf0 \
+    
+\f0\b \cf2 def
+\f1\b0 \cf0  \cf8 __init__
+\f0\b \cf4 (
+\f1\b0 \cf0 self
+\f0\b \cf4 ,
+\f1\b0 \cf0  width
+\f0\b \cf4 ,
+\f1\b0 \cf0  height
+\f0\b \cf4 ):
+\f1\b0 \cf0 \
+        self
+\f0\b \cf4 .
+\f1\b0 \cf0 playfield 
+\f0\b \cf4 =
+\f1\b0 \cf0  Playfield
+\f0\b \cf4 (
+\f1\b0 \cf0 width
+\f0\b \cf4 ,
+\f1\b0 \cf0  height
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+        self
+\f0\b \cf4 .
+\f1\b0 \cf0 creatures 
+\f0\b \cf4 =
+\f1\b0 \cf0  
+\f0\b \cf4 []
+\f1\b0 \cf0 \
+        
+\f0\b \cf2 for
+\f1\b0 \cf0  i 
+\f0\b \cf2 in
+\f1\b0 \cf0  
+\f0\b \cf7 range\cf4 (
+\f1\b0 \cf0 random
+\f0\b \cf4 .
+\f1\b0 \cf0 randint
+\f0\b \cf4 (
+\f1\b0 \cf6 10
+\f0\b \cf4 ,
+\f1\b0 \cf0  \cf6 100
+\f0\b \cf4 )):
+\f1\b0 \cf0 \
+            creature 
+\f0\b \cf4 =
+\f1\b0 \cf0  Creature
+\f0\b \cf4 (
+\f1\b0 \cf6 0
+\f0\b \cf4 ,
+\f1\b0 \cf0  \cf6 0
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+            self
+\f0\b \cf4 .
+\f1\b0 \cf0 creatures
+\f0\b \cf4 .
+\f1\b0 \cf0 append
+\f0\b \cf4 (
+\f1\b0 \cf0 creature
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+\
+        \cf3 # Use Fisher-Yates algorithm to shuffle the list of creatures\cf0 \
+        n 
+\f0\b \cf4 =
+\f1\b0 \cf0  
+\f0\b \cf7 len\cf4 (
+\f1\b0 \cf0 self
+\f0\b \cf4 .
+\f1\b0 \cf0 creatures
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+        
+\f0\b \cf2 for
+\f1\b0 \cf0  i 
+\f0\b \cf2 in
+\f1\b0 \cf0  
+\f0\b \cf7 range\cf4 (
+\f1\b0 \cf0 n 
+\f0\b \cf4 -
+\f1\b0 \cf0  \cf6 1
+\f0\b \cf4 ,
+\f1\b0 \cf0  \cf6 0
+\f0\b \cf4 ,
+\f1\b0 \cf0  
+\f0\b \cf4 -
+\f1\b0 \cf6 1
+\f0\b \cf4 ):
+\f1\b0 \cf0 \
+            j 
+\f0\b \cf4 =
+\f1\b0 \cf0  random
+\f0\b \cf4 .
+\f1\b0 \cf0 randint
+\f0\b \cf4 (
+\f1\b0 \cf6 0
+\f0\b \cf4 ,
+\f1\b0 \cf0  i
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+            self
+\f0\b \cf4 .
+\f1\b0 \cf0 creatures
+\f0\b \cf4 [
+\f1\b0 \cf0 i
+\f0\b \cf4 ],
+\f1\b0 \cf0  self
+\f0\b \cf4 .
+\f1\b0 \cf0 creatures
+\f0\b \cf4 [
+\f1\b0 \cf0 j
+\f0\b \cf4 ]
+\f1\b0 \cf0  
+\f0\b \cf4 =
+\f1\b0 \cf0  self
+\f0\b \cf4 .
+\f1\b0 \cf0 creatures
+\f0\b \cf4 [
+\f1\b0 \cf0 j
+\f0\b \cf4 ],
+\f1\b0 \cf0  self
+\f0\b \cf4 .
+\f1\b0 \cf0 creatures
+\f0\b \cf4 [
+\f1\b0 \cf0 i
+\f0\b \cf4 ]
+\f1\b0 \cf0 \
+\
+        \cf3 # Place each creature at a random and empty location on the playfield\cf0 \
+        
+\f0\b \cf2 for
+\f1\b0 \cf0  creature 
+\f0\b \cf2 in
+\f1\b0 \cf0  self
+\f0\b \cf4 .
+\f1\b0 \cf0 creatures
+\f0\b \cf4 :
+\f1\b0 \cf0 \
+            
+\f0\b \cf2 while
+\f1\b0 \cf0  
+\f0\b \cf7 True\cf4 :
+\f1\b0 \cf0 \
+                x 
+\f0\b \cf4 =
+\f1\b0 \cf0  random
+\f0\b \cf4 .
+\f1\b0 \cf0 randint
+\f0\b \cf4 (
+\f1\b0 \cf6 0
+\f0\b \cf4 ,
+\f1\b0 \cf0  self
+\f0\b \cf4 .
+\f1\b0 \cf0 playfield
+\f0\b \cf4 .
+\f1\b0 \cf0 width 
+\f0\b \cf4 -
+\f1\b0 \cf0  \cf6 1
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+                y 
+\f0\b \cf4 =
+\f1\b0 \cf0  random
+\f0\b \cf4 .
+\f1\b0 \cf0 randint
+\f0\b \cf4 (
+\f1\b0 \cf6 0
+\f0\b \cf4 ,
+\f1\b0 \cf0  self
+\f0\b \cf4 .
+\f1\b0 \cf0 playfield
+\f0\b \cf4 .
+\f1\b0 \cf0 height 
+\f0\b \cf4 -
+\f1\b0 \cf0  \cf6 1
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+                
+\f0\b \cf2 if
+\f1\b0 \cf0  
+\f0\b \cf7 all\cf4 ((
+\f1\b0 \cf0 x
+\f0\b \cf4 ,
+\f1\b0 \cf0  y
+\f0\b \cf4 )
+\f1\b0 \cf0  
+\f0\b \cf4 !=
+\f1\b0 \cf0  
+\f0\b \cf4 (
+\f1\b0 \cf0 c
+\f0\b \cf4 .
+\f1\b0 \cf0 x
+\f0\b \cf4 ,
+\f1\b0 \cf0  c
+\f0\b \cf4 .
+\f1\b0 \cf0 y
+\f0\b \cf4 )
+\f1\b0 \cf0  
+\f0\b \cf2 for
+\f1\b0 \cf0  c 
+\f0\b \cf2 in
+\f1\b0 \cf0  self
+\f0\b \cf4 .
+\f1\b0 \cf0 creatures
+\f0\b \cf4 ):
+\f1\b0 \cf0 \
+                    creature
+\f0\b \cf4 .
+\f1\b0 \cf0 x 
+\f0\b \cf4 =
+\f1\b0 \cf0  x\
+                    creature
+\f0\b \cf4 .
+\f1\b0 \cf0 y 
+\f0\b \cf4 =
+\f1\b0 \cf0  y\
+                    
+\f0\b \cf2 break
+\f1\b0 \cf0 \
+\
+        \cf3 # Create the player\cf0 \
+        self
+\f0\b \cf4 .
+\f1\b0 \cf0 player 
+\f0\b \cf4 =
+\f1\b0 \cf0  Player
+\f0\b \cf4 (
+\f1\b0 \cf6 0
+\f0\b \cf4 ,
+\f1\b0 \cf0  \cf6 0
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+\
+        \cf3 # Use Fisher-Yates algorithm to shuffle a list of all coordinates on the playfield\cf0 \
+        coords 
+\f0\b \cf4 =
+\f1\b0 \cf0  
+\f0\b \cf4 [(
+\f1\b0 \cf0 x
+\f0\b \cf4 ,
+\f1\b0 \cf0  y
+\f0\b \cf4 )
+\f1\b0 \cf0  
+\f0\b \cf2 for
+\f1\b0 \cf0  x 
+\f0\b \cf2 in
+\f1\b0 \cf0  
+\f0\b \cf7 range\cf4 (
+\f1\b0 \cf0 self
+\f0\b \cf4 .
+\f1\b0 \cf0 playfield
+\f0\b \cf4 .
+\f1\b0 \cf0 width
+\f0\b \cf4 )
+\f1\b0 \cf0  
+\f0\b \cf2 for
+\f1\b0 \cf0  y 
+\f0\b \cf2 in
+\f1\b0 \cf0  
+\f0\b \cf7 range\cf4 (
+\f1\b0 \cf0 self
+\f0\b \cf4 .
+\f1\b0 \cf0 playfield
+\f0\b \cf4 .
+\f1\b0 \cf0 height
+\f0\b \cf4 )]
+\f1\b0 \cf0 \
+        n 
+\f0\b \cf4 =
+\f1\b0 \cf0  
+\f0\b \cf7 len\cf4 (
+\f1\b0 \cf0 coords
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+        
+\f0\b \cf2 for
+\f1\b0 \cf0  i 
+\f0\b \cf2 in
+\f1\b0 \cf0  
+\f0\b \cf7 range\cf4 (
+\f1\b0 \cf0 n 
+\f0\b \cf4 -
+\f1\b0 \cf0  \cf6 1
+\f0\b \cf4 ,
+\f1\b0 \cf0  \cf6 0
+\f0\b \cf4 ,
+\f1\b0 \cf0  
+\f0\b \cf4 -
+\f1\b0 \cf6 1
+\f0\b \cf4 ):
+\f1\b0 \cf0 \
+            j 
+\f0\b \cf4 =
+\f1\b0 \cf0  random
+\f0\b \cf4 .
+\f1\b0 \cf0 randint
+\f0\b \cf4 (
+\f1\b0 \cf6 0
+\f0\b \cf4 ,
+\f1\b0 \cf0  i
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+            coords
+\f0\b \cf4 [
+\f1\b0 \cf0 i
+\f0\b \cf4 ],
+\f1\b0 \cf0  coords
+\f0\b \cf4 [
+\f1\b0 \cf0 j
+\f0\b \cf4 ]
+\f1\b0 \cf0  
+\f0\b \cf4 =
+\f1\b0 \cf0  coords
+\f0\b \cf4 [
+\f1\b0 \cf0 j
+\f0\b \cf4 ],
+\f1\b0 \cf0  coords
+\f0\b \cf4 [
+\f1\b0 \cf0 i
+\f0\b \cf4 ]
+\f1\b0 \cf0 \
+\
+        \cf3 # Place the player at the first random and empty location on the shuffled list\cf0 \
+        
+\f0\b \cf2 for
+\f1\b0 \cf0  x
+\f0\b \cf4 ,
+\f1\b0 \cf0  y 
+\f0\b \cf2 in
+\f1\b0 \cf0  coords
+\f0\b \cf4 :
+\f1\b0 \cf0 \
+            
+\f0\b \cf2 if
+\f1\b0 \cf0  
+\f0\b \cf7 all\cf4 ((
+\f1\b0 \cf0 x
+\f0\b \cf4 ,
+\f1\b0 \cf0  y
+\f0\b \cf4 )
+\f1\b0 \cf0  
+\f0\b \cf4 !=
+\f1\b0 \cf0  
+\f0\b \cf4 (
+\f1\b0 \cf0 c
+\f0\b \cf4 .
+\f1\b0 \cf0 x
+\f0\b \cf4 ,
+\f1\b0 \cf0  c
+\f0\b \cf4 .
+\f1\b0 \cf0 y
+\f0\b \cf4 )
+\f1\b0 \cf0  
+\f0\b \cf2 for
+\f1\b0 \cf0  c 
+\f0\b \cf2 in
+\f1\b0 \cf0  self
+\f0\b \cf4 .
+\f1\b0 \cf0 creatures
+\f0\b \cf4 ):
+\f1\b0 \cf0 \
+                self
+\f0\b \cf4 .
+\f1\b0 \cf0 player
+\f0\b \cf4 .
+\f1\b0 \cf0 x 
+\f0\b \cf4 =
+\f1\b0 \cf0  x\
+                self
+\f0\b \cf4 .
+\f1\b0 \cf0 player
+\f0\b \cf4 .
+\f1\b0 \cf0 y 
+\f0\b \cf4 =
+\f1\b0 \cf0  y\
+                
+\f0\b \cf2 break
+\f1\b0 \cf0 \
+\pard\pardeftab708\ri-1184\partightenfactor0
+
+\f2\fs22 \cf0 \
+\
+\pard\pardeftab708\ri-1184\partightenfactor0
+
+\f0\b\fs20 \cf2 class
+\f1\b0 \cf0  
+\f0\b Game\'a0\cf4 :
+\f1\b0 \cf0 \
+    
+\f0\b \cf2 def
+\f1\b0 \cf0  \cf8 __init__
+\f0\b \cf4 (
+\f1\b0 \cf0 self
+\f0\b \cf4 ,
+\f1\b0 \cf0  width
+\f0\b \cf4 ,
+\f1\b0 \cf0  height
+\f0\b \cf4 )\'a0:
+\f1\b0 \cf0 \
+        self
+\f0\b \cf4 .
+\f1\b0 \cf0 playfield 
+\f0\b \cf4 =
+\f1\b0 \cf0  Playfield
+\f0\b \cf4 (
+\f1\b0 \cf0 width
+\f0\b \cf4 ,
+\f1\b0 \cf0  height
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+\
+        \cf3 # Create a list of all possible positions in the playfield\cf0 \
+        positions 
+\f0\b \cf4 =
+\f1\b0 \cf0  
+\f0\b \cf4 [(
+\f1\b0 \cf0 x
+\f0\b \cf4 ,
+\f1\b0 \cf0  y
+\f0\b \cf4 )
+\f1\b0 \cf0  
+\f0\b \cf2 for
+\f1\b0 \cf0  x 
+\f0\b \cf2 in
+\f1\b0 \cf0  
+\f0\b \cf7 range\cf4 (
+\f1\b0 \cf0 width
+\f0\b \cf4 )
+\f1\b0 \cf0  
+\f0\b \cf2 for
+\f1\b0 \cf0  y 
+\f0\b \cf2 in
+\f1\b0 \cf0  
+\f0\b \cf7 range\cf4 (
+\f1\b0 \cf0 height
+\f0\b \cf4 )]
+\f1\b0 \cf0 \
+\
+        \cf3 # Shuffle the positions using the Fisher-Yates algorithm\cf0 \
+        
+\f0\b \cf2 for
+\f1\b0 \cf0  i 
+\f0\b \cf2 in
+\f1\b0 \cf0  
+\f0\b \cf7 range\cf4 (\cf7 len\cf4 (
+\f1\b0 \cf0 positions
+\f0\b \cf4 )
+\f1\b0 \cf0  
+\f0\b \cf4 \'96
+\f1\b0 \cf0  \cf6 1
+\f0\b \cf4 ,
+\f1\b0 \cf0  \cf6 0
+\f0\b \cf4 ,
+\f1\b0 \cf0  
+\f0\b \cf4 -
+\f1\b0 \cf6 1
+\f0\b \cf4 )\'a0:
+\f1\b0 \cf0 \
+            j 
+\f0\b \cf4 =
+\f1\b0 \cf0  random
+\f0\b \cf4 .
+\f1\b0 \cf0 randint
+\f0\b \cf4 (
+\f1\b0 \cf6 0
+\f0\b \cf4 ,
+\f1\b0 \cf0  i
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+            positions
+\f0\b \cf4 [
+\f1\b0 \cf0 i
+\f0\b \cf4 ],
+\f1\b0 \cf0  positions
+\f0\b \cf4 [
+\f1\b0 \cf0 j
+\f0\b \cf4 ]
+\f1\b0 \cf0  
+\f0\b \cf4 =
+\f1\b0 \cf0  positions
+\f0\b \cf4 [
+\f1\b0 \cf0 j
+\f0\b \cf4 ],
+\f1\b0 \cf0  positions
+\f0\b \cf4 [
+\f1\b0 \cf0 i
+\f0\b \cf4 ]
+\f1\b0 \cf0 \
+\
+        \cf3 # Create the creatures and place them on the shuffled positions\cf0 \
+        self
+\f0\b \cf4 .
+\f1\b0 \cf0 creatures 
+\f0\b \cf4 =
+\f1\b0 \cf0  
+\f0\b \cf4 []
+\f1\b0 \cf0 \
+        
+\f0\b \cf2 for
+\f1\b0 \cf0  i 
+\f0\b \cf2 in
+\f1\b0 \cf0  
+\f0\b \cf7 range\cf4 (
+\f1\b0 \cf0 random
+\f0\b \cf4 .
+\f1\b0 \cf0 randint
+\f0\b \cf4 (
+\f1\b0 \cf6 10
+\f0\b \cf4 ,
+\f1\b0 \cf0  \cf6 100
+\f0\b \cf4 ))\'a0:
+\f1\b0 \cf0 \
+            creature 
+\f0\b \cf4 =
+\f1\b0 \cf0  Creature
+\f0\b \cf4 (
+\f1\b0 \cf6 0
+\f0\b \cf4 ,
+\f1\b0 \cf0  \cf6 0
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+            self
+\f0\b \cf4 .
+\f1\b0 \cf0 creatures
+\f0\b \cf4 .
+\f1\b0 \cf0 append
+\f0\b \cf4 (
+\f1\b0 \cf0 creature
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+            creature
+\f0\b \cf4 .
+\f1\b0 \cf0 x
+\f0\b \cf4 ,
+\f1\b0 \cf0  creature
+\f0\b \cf4 .
+\f1\b0 \cf0 y 
+\f0\b \cf4 =
+\f1\b0 \cf0  positions
+\f0\b \cf4 .
+\f1\b0 \cf0 pop
+\f0\b \cf4 ()
+\f1\b0 \cf0 \
+\
+        \cf3 # Create the player and place it on a shuffled position\cf0 \
+        self
+\f0\b \cf4 .
+\f1\b0 \cf0 player 
+\f0\b \cf4 =
+\f1\b0 \cf0  Player
+\f0\b \cf4 (
+\f1\b0 \cf6 0
+\f0\b \cf4 ,
+\f1\b0 \cf0  \cf6 0
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+        self
+\f0\b \cf4 .
+\f1\b0 \cf0 player
+\f0\b \cf4 .
+\f1\b0 \cf0 x
+\f0\b \cf4 ,
+\f1\b0 \cf0  self
+\f0\b \cf4 .
+\f1\b0 \cf0 player
+\f0\b \cf4 .
+\f1\b0 \cf0 y 
+\f0\b \cf4 =
+\f1\b0 \cf0  positions
+\f0\b \cf4 .
+\f1\b0 \cf0 pop
+\f0\b \cf4 ()
+\f1\b0 \cf0 \
+\pard\pardeftab708\ri-1184\partightenfactor0
+
+\f2\fs22 \cf0 \
+\
+\pard\pardeftab708\ri-1184\partightenfactor0
+
+\f0\b\fs20 \cf2 def
+\f1\b0 \cf0  \cf8 test_game_positions
+\f0\b \cf4 ():
+\f1\b0 \cf0 \
+    game 
+\f0\b \cf4 =
+\f1\b0 \cf0  Game
+\f0\b \cf4 (
+\f1\b0 \cf6 10
+\f0\b \cf4 ,
+\f1\b0 \cf0  \cf6 10
+\f0\b \cf4 )
+\f1\b0 \cf0 \
+    positions 
+\f0\b \cf4 =
+\f1\b0 \cf0  
+\f0\b \cf7 set\cf4 ()
+\f1\b0 \cf0 \
+    positions
+\f0\b \cf4 .
+\f1\b0 \cf0 add
+\f0\b \cf4 ((
+\f1\b0 \cf0 game
+\f0\b \cf4 .
+\f1\b0 \cf0 player
+\f0\b \cf4 .
+\f1\b0 \cf0 x
+\f0\b \cf4 ,
+\f1\b0 \cf0  game
+\f0\b \cf4 .
+\f1\b0 \cf0 player
+\f0\b \cf4 .
+\f1\b0 \cf0 y
+\f0\b \cf4 ))
+\f1\b0 \cf0 \
+    
+\f0\b \cf2 for
+\f1\b0 \cf0  creature 
+\f0\b \cf2 in
+\f1\b0 \cf0  game
+\f0\b \cf4 .
+\f1\b0 \cf0 creatures
+\f0\b \cf4 :
+\f1\b0 \cf0 \
+        positions
+\f0\b \cf4 .
+\f1\b0 \cf0 add
+\f0\b \cf4 ((
+\f1\b0 \cf0 creature
+\f0\b \cf4 .
+\f1\b0 \cf0 x
+\f0\b \cf4 ,
+\f1\b0 \cf0  creature
+\f0\b \cf4 .
+\f1\b0 \cf0 y
+\f0\b \cf4 ))
+\f1\b0 \cf0 \
+    
+\f0\b \cf2 assert
+\f1\b0 \cf0  
+\f0\b \cf7 len\cf4 (
+\f1\b0 \cf0 positions
+\f0\b \cf4 )
+\f1\b0 \cf0  
+\f0\b \cf4 ==
+\f1\b0 \cf0  
+\f0\b \cf7 len\cf4 (
+\f1\b0 \cf0 game
+\f0\b \cf4 .
+\f1\b0 \cf0 creatures
+\f0\b \cf4 )
+\f1\b0 \cf0  
+\f0\b \cf4 +
+\f1\b0 \cf0  \cf6 1\cf0   \cf3 # player + creatures\cf0 \
+\pard\pardeftab708\ri-1184\sa120\qj\partightenfactor0
+
+\f2\fs22 \cf0 \
+}
